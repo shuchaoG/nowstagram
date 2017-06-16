@@ -39,7 +39,7 @@ def index():
 
 
 @app.route('/image/<int:image_id>/')
-#@login_required
+@login_required
 def image(image_id):
     image = Image.query.get(image_id)
     if image == None:
@@ -49,7 +49,7 @@ def image(image_id):
 
 
 @app.route('/profile/<int:user_id>/')
-#@login_required
+@login_required
 def profile(user_id):
     user = User.query.get(user_id)
     if user == None:
@@ -187,8 +187,8 @@ def upload():
         file_ext = file.filename.rsplit('.', 1)[1].strip().lower()
     if file_ext in app.config['ALLOWED_EXT']:
         file_name = str(uuid.uuid1()).replace('-', '') + '.' + file_ext
-        url = qiniu_upload_file(file, file_name)
-        #url = save_to_local(file, file_name)
+        #url = qiniu_upload_file(file, file_name)
+        url = save_to_local(file, file_name)
         if url != None:
             db.session.add(Image(url, current_user.id))
             db.session.commit()
